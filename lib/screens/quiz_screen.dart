@@ -1,0 +1,191 @@
+import 'package:flutter/material.dart';
+import 'main_screen.dart';
+
+class QuizScreen extends StatefulWidget {
+  const QuizScreen({Key? key}) : super(key: key);
+
+  @override
+  _QuizScreenState createState() => _QuizScreenState();
+}
+
+class _QuizScreenState extends State<QuizScreen> {
+  final questions = [
+    {
+      'question': 'Gdzie chciałbyś spędzić wieczór?',
+      'answers': ['W domu', 'W klubie', 'Na spacerze', 'W kinie']
+    },
+    {
+      'question': 'Jak dużo masz czasu?',
+      'answers': [
+        'Tylko na chwilę, max 1h',
+        'Kilka godzin',
+        'Do późnych godzin nocnych',
+        'Zależy od atmosfery, nie mam ustalonego planu'
+      ]
+    }
+  ];
+
+  int questionIndex = 0;
+  List<bool> isSelected = [false, false, false, false];
+  DateTime selectedDate = DateTime.now();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Quiz preferencji aktywności",
+            style: TextStyle(
+                fontFamily: 'Montserrat', fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFF1E90FF), Color(0xFF00BFFF)])),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          OutlinedButton(
+            onPressed: _pickDate,
+            style: _buttonStyle(),
+            child: Text(
+                "Data: ${selectedDate.toLocal().toIso8601String().substring(0, 10)}",
+                style: const TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
+          ),
+          const SizedBox(height: 10),
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: _dateButtons())),
+          const SizedBox(height: 20),
+          Text((questions[questionIndex]['question'] as String),
+              style: const TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
+          const SizedBox(height: 20),
+          ..._answersList(),
+          const SizedBox(height: 20),
+          _navigationButtons(),
+          const SizedBox(height: 20),
+        ]),
+      ),
+    );
+  }
+
+  ButtonStyle _buttonStyle() => OutlinedButton.styleFrom(
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.blue,
+      side: const BorderSide(color: Colors.blue),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20));
+
+  _pickDate() async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2100));
+    if (picked != null && picked != selectedDate) {
+      setState(() => selectedDate = picked);
+    }
+  }
+
+  List<Widget> _dateButtons() => ["Dzisiaj", "Piątek", "Sobota"]
+      .map((label) => OutlinedButton(
+          onPressed: () => _setDate(label),
+          style: _buttonStyle(),
+          child: Text(label,
+              style: const TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold))))
+      .toList();
+
+  _setDate(String label) {
+    DateTime now = DateTime.now();
+    setState(() {
+      if (label == "Dzisiaj") {
+        selectedDate = now;
+      } else if (label == "Piątek") {
+        selectedDate = now.add(Duration(days: (5 - now.weekday + 7) % 7));
+      } else if (label == "Sobota") {
+        selectedDate = now.add(Duration(days: (6 - now.weekday + 7) % 7));
+      }
+    });
+  }
+
+  List<Widget> _answersList() =>
+      (questions[questionIndex]['answers'] as List<String>)
+          .asMap()
+          .entries
+          .map((entry) => Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3))
+                  ]),
+              child: CheckboxListTile(
+                  title: Text(entry.value,
+                      style: const TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                  value: isSelected[entry.key],
+                  onChanged: (bool? value) =>
+                      setState(() => isSelected[entry.key] = value!),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  activeColor: Colors.blue)))
+          .toList();
+
+  uncheckAll() {
+    setState(() {
+      isSelected = List.filled(isSelected.length, false);
+    });
+  }
+
+  Widget _navigationButtons() =>
+      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        if (questionIndex > 0)
+          ElevatedButton(
+              onPressed: () => (setState(() => questionIndex--), uncheckAll()),
+              child: const Text("Wróć",
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold))),
+        ElevatedButton(
+            onPressed: _nextQuestionOrScreen,
+            child: Text(
+                questionIndex < questions.length - 1
+                    ? "Następne pytanie"
+                    : "Dalej",
+                style: const TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)))
+      ]);
+
+  _nextQuestionOrScreen() {
+    uncheckAll();
+    if (questionIndex < questions.length - 1) {
+      setState(() => questionIndex++);
+    } else {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => MainScreen()));
+    }
+  }
+}
