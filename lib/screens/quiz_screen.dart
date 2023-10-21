@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'main_screen.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -11,8 +12,8 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   final questions = [
     {
-      'question': 'Gdzie chciałbyś spędzić wieczór?',
-      'answers': ['W domu', 'W klubie', 'Na spacerze', 'W kinie']
+      'question': 'Preferowana atmosfera?',
+      'answers': ['W domu', 'Na zewnątrz', 'Na spacerze', 'W kinie']
     },
     {
       'question': 'Jak dużo masz czasu?',
@@ -20,7 +21,7 @@ class _QuizScreenState extends State<QuizScreen> {
         'Tylko na chwilę, max 1h',
         'Kilka godzin',
         'Do późnych godzin nocnych',
-        'Zależy od atmosfery, nie mam ustalonego planu'
+        'Nie mam ustalonego planu'
       ]
     }
   ];
@@ -45,7 +46,12 @@ class _QuizScreenState extends State<QuizScreen> {
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Color(0xFF1E90FF), Color(0xFF00BFFF)])),
+                colors: [
+              Color(0xFF73AEF5),
+              Color(0xFF61A4F1),
+              Color(0xFF478DE0),
+              Color(0xFF398AE5),
+            ])),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           OutlinedButton(
             onPressed: _pickDate,
@@ -61,7 +67,7 @@ class _QuizScreenState extends State<QuizScreen> {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: _dateButtons())),
           const SizedBox(height: 20),
           Text((questions[questionIndex]['question'] as String),
@@ -80,48 +86,14 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  ButtonStyle _buttonStyle() => OutlinedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.blue,
-      side: const BorderSide(color: Colors.blue),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20));
-
-  _pickDate() async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2100));
-    if (picked != null && picked != selectedDate) {
-      setState(() => selectedDate = picked);
-    }
-  }
-
-  List<Widget> _dateButtons() => ["Dzisiaj", "Piątek", "Sobota"]
-      .map((label) => OutlinedButton(
-          onPressed: () => _setDate(label),
-          style: _buttonStyle(),
-          child: Text(label,
-              style: const TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold))))
-      .toList();
-
-  _setDate(String label) {
-    DateTime now = DateTime.now();
+  uncheckAll() {
     setState(() {
-      if (label == "Dzisiaj") {
-        selectedDate = now;
-      } else if (label == "Piątek") {
-        selectedDate = now.add(Duration(days: (5 - now.weekday + 7) % 7));
-      } else if (label == "Sobota") {
-        selectedDate = now.add(Duration(days: (6 - now.weekday + 7) % 7));
-      }
+      isSelected = List.filled(isSelected.length, false);
+      _isAnswerSelected = false;
     });
   }
 
+  bool _isAnswerSelected = false;
   List<Widget> _answersList() =>
       (questions[questionIndex]['answers'] as List<String>)
           .asMap()
@@ -145,39 +117,70 @@ class _QuizScreenState extends State<QuizScreen> {
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                   value: isSelected[entry.key],
-                  onChanged: (bool? value) =>
-                      setState(() => isSelected[entry.key] = value!),
+                  onChanged: (bool? value) {
+                    setState(() {
+                      for (int i = 0; i < isSelected.length; i++) {
+                        if (i != entry.key) {
+                          isSelected[i] = false;
+                        }
+                      }
+                      isSelected[entry.key] = value!;
+                      _isAnswerSelected = value;
+                    });
+                  },
                   controlAffinity: ListTileControlAffinity.leading,
                   activeColor: Colors.blue)))
           .toList();
 
-  uncheckAll() {
-    setState(() {
-      isSelected = List.filled(isSelected.length, false);
-    });
-  }
+  ButtonStyle _buttonStyle() => OutlinedButton.styleFrom(
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.blue,
+      side: const BorderSide(color: Colors.blue),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20));
 
-  Widget _navigationButtons() =>
-      Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        if (questionIndex > 0)
+  List<Widget> _dateButtons() => ["Dzisiaj", "Piątek", "Sobota"]
+      .map((label) => Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: OutlinedButton(
+                onPressed: () => _setDate(label),
+                style: _buttonStyle(),
+                child: Text(label,
+                    style: const TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold))),
+          ))
+      .toList();
+
+  Widget _navigationButtons() => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          if (questionIndex > 0)
+            ElevatedButton(
+                onPressed: () {
+                  setState(() => questionIndex--);
+                  uncheckAll();
+                },
+                child: const Text("Wróć",
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold))),
           ElevatedButton(
-              onPressed: () => (setState(() => questionIndex--), uncheckAll()),
-              child: const Text("Wróć",
-                  style: TextStyle(
+              onPressed: _isAnswerSelected
+                  ? _nextQuestionOrScreen
+                  : null, // disable button if no checkbox is selected
+              child: Text(
+                  questionIndex < questions.length - 1
+                      ? "Następne pytanie"
+                      : "Dalej",
+                  style: const TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 18,
-                      fontWeight: FontWeight.bold))),
-        ElevatedButton(
-            onPressed: _nextQuestionOrScreen,
-            child: Text(
-                questionIndex < questions.length - 1
-                    ? "Następne pytanie"
-                    : "Dalej",
-                style: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold)))
-      ]);
+                      fontWeight: FontWeight.bold)))
+        ],
+      );
 
   _nextQuestionOrScreen() {
     uncheckAll();
@@ -187,5 +190,29 @@ class _QuizScreenState extends State<QuizScreen> {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => MainScreen()));
     }
+  }
+
+  _pickDate() async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2100));
+    if (picked != null && picked != selectedDate) {
+      setState(() => selectedDate = picked);
+    }
+  }
+
+  _setDate(String label) {
+    DateTime now = DateTime.now();
+    setState(() {
+      if (label == "Dzisiaj") {
+        selectedDate = now;
+      } else if (label == "Piątek") {
+        selectedDate = now.add(Duration(days: (5 - now.weekday + 7) % 7));
+      } else if (label == "Sobota") {
+        selectedDate = now.add(Duration(days: (6 - now.weekday + 7) % 7));
+      }
+    });
   }
 }
