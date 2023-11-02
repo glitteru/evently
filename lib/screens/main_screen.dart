@@ -15,6 +15,8 @@ class MainScreen extends StatelessWidget {
     // Możesz dodać więcej przykładowych eventów...
   ];
 
+  MainScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

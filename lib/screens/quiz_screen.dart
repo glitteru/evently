@@ -12,10 +12,6 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   final questions = [
     {
-      'question': 'Preferowana atmosfera?',
-      'answers': ['W domu', 'Na zewnątrz', 'Na spacerze', 'W kinie']
-    },
-    {
       'question': 'Jak dużo masz czasu?',
       'answers': [
         'Tylko na chwilę, max 1h',
