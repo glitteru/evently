@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import logging
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
+from waitress import serve
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -95,10 +96,18 @@ def reset_events():
 scheduler.add_job(reset_events, 'cron', hour=4)
 scheduler.start()
 
-@app.route('/api/events', methods=['GET'])
-def get_events():
-    return jsonify(events)
+def create_app():
+    app = Flask(__name__)
+
+    @app.route('/api/events', methods=['GET'])
+    def get_events():
+        return jsonify(events)
+
+    reset_events()
+
+    return app
+
+app = create_app()
 
 if __name__ == '__main__':
-    events = scrape_events()
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+    serve(app, host='0.0.0.0', port=int(os.environ.get("PORT", 8000)))
