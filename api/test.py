@@ -1,5 +1,5 @@
 import unittest
-from main import scrape_events
+from api import scrape_events
 
 class TestScrapeEvents(unittest.TestCase):
     def setUp(self):
