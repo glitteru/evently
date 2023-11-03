@@ -1,7 +1,10 @@
+from flask import Flask, jsonify
 import requests
 from bs4 import BeautifulSoup
 import time
 from datetime import datetime, timedelta
+
+app = Flask(__name__)
 
 
 def scrape_events():
@@ -70,6 +73,13 @@ def scrape_events():
                 events.append(event_data)
     return events
 
-events = scrape_events()
-print(events)
-print('Scraped events: ', len(events))
+
+
+@app.route('/api/events', methods=['GET'])
+def get_events():
+    return jsonify(events)
+
+if __name__ == '__main__':
+    events = scrape_events()
+    app.run(debug=True)
+
