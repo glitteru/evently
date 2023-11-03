@@ -45,13 +45,27 @@ def scrape_events():
                 month = "11"
             elif month == "gru":
                 month = "12"
-            image = event.find("img", class_="img_bg")['src']
+            image = event.find("img", itemprop="image")['src']
+            if image == "https://s-trojmiasto.pl/_img/1px_transparent.png":
+                image = "None"
+            link = event.find("a", class_="event__item__title")['href']
+            try: category = event.find("a", class_="event__item__types__link").text.strip()
+            except: category = "None"
+            
+            city = event.find("span", class_="event__item__location__city").text.strip()
+            try: localization = event.find("a", class_="event__item__location__place").text.strip()
+            except: localization = "None"
             event_data = {
                 "title": title,
                 "month": month,
                 "day": day,
-                "image": image
+                "image": image,
+                "link": link,
+                "category": category,
+                "city": city,
+                "localization": localization
             }
+            print('Scraped event: ', title)
             if event_data not in events:
                 events.append(event_data)
     return events
