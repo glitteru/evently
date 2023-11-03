@@ -1,12 +1,15 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import requests
 from bs4 import BeautifulSoup
 import time
 from datetime import datetime, timedelta
 import logging
+import os
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
+scheduler = BackgroundScheduler()
 
 
 def scrape_events():
@@ -85,10 +88,17 @@ def scrape_events():
     return events
 
 
+def reset_events():
+    global events
+    events = scrape_events()
+
+scheduler.add_job(reset_events, 'cron', hour=4)
+scheduler.start()
+
 @app.route('/api/events', methods=['GET'])
 def get_events():
     return jsonify(events)
 
 if __name__ == '__main__':
     events = scrape_events()
-    app.run()
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
