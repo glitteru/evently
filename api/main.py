@@ -3,8 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from datetime import datetime, timedelta
+import logging
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 def scrape_events():
@@ -13,7 +15,16 @@ def scrape_events():
         date = datetime.now() + timedelta(days=i)
         date_str = date.strftime("%Y-%m-%d")
         url = f"https://imprezy.trojmiasto.pl/kalendarz-imprez/dzien,{date_str},offset,120.html"
-        response = requests.get(url)
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+        except requests.HTTPError as http_err:
+            logging.error(f'HTTP error occurred: {http_err}')
+            continue
+        except Exception as err:
+            logging.error(f'Other error occurred: {err}')
+            continue
+
         soup = BeautifulSoup(response.content, "html.parser")
         
         for event in soup.find_all("div", class_="event__item"):
@@ -74,12 +85,10 @@ def scrape_events():
     return events
 
 
-
 @app.route('/api/events', methods=['GET'])
 def get_events():
     return jsonify(events)
 
 if __name__ == '__main__':
     events = scrape_events()
-    app.run(debug=True)
-
+    app.run()
