@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'event.dart';
 
 class ApiService {
-  static const String url = 'http://127.0.0.1:8000/api/events';
+  static const String url = 'http://158.180.22.42:8000/api/events';
 
   static Future<List<Event>> getEvents() async {
     try {
