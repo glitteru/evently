@@ -95,20 +95,21 @@ def scrape_events():
                 if '-' in day:
                     days = day.split('-')
                     for d in days:
-                        d = str(d).zfill(2)
-                        event_data = {
-                            "title": title,
-                            "image": image,
-                            "link": link,
-                            "category": category,
-                            "city": city,
-                            "localization": localization,
-                            "date": f"{d}-{month}-{year}",
-                            "description": description
-                        }
-                        if event_data not in events:
-                            events.append(event_data)
-                            print('Scraped event: ', title)
+                        if d.isdigit() and len(d) <= 2:
+                            d = str(d).zfill(2)
+                            event_data = {
+                                "title": title,
+                                "image": image,
+                                "link": link,
+                                "category": category,
+                                "city": city,
+                                "localization": localization,
+                                "date": f"{d}-{month}-{year}",
+                                "description": description
+                            }
+                            if event_data not in events:
+                                events.append(event_data)
+                                print('Scraped event: ', title)
                 else:
                     event_data = {
                         "title": title,

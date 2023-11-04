@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Event {
   final String title;
   final String description;
@@ -17,8 +19,8 @@ class Event {
       title: json['title'] as String,
       description: 'Test description',
       imageUrl: json['image'] as String,
-      date: DateTime.parse(json['date']),
-      location: json['location'] as String,
+      date: DateFormat('dd-MM-yyyy').parse(json['date']),
+      location: json['localization'] as String,
     );
   }
 }
