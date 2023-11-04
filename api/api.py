@@ -109,7 +109,6 @@ def scrape_events():
                         if event_data not in events:
                             events.append(event_data)
                             print('Scraped event: ', title)
-                            print(f"{d}-{month}-{year}")
                 else:
                     event_data = {
                         "title": title,
