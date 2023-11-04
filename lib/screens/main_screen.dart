@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'event_details_screen.dart';
 import '../models/event.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../models/api_service.dart';
 
-class MainScreen extends StatelessWidget {
-  final List<Event> events = [
-    Event(
-      title: 'Koncert Rockowy',
-      description: 'Wspaniały koncert rockowy w twoim mieście!',
-      imageUrl:
-          'https://tc-assets-dep.s3.amazonaws.com/media/concert-crowd.jpg',
-      date: DateTime.now(),
-      location: 'Plac Koncertowy 1',
-    ),
-    // Możesz dodać więcej przykładowych eventów...
-  ];
+class MainScreen extends StatefulWidget {
+  MainScreen({Key? key}) : super(key: key);
 
-  MainScreen({super.key});
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  late Future<List<Event>> futureEvents;
+
+  @override
+  void initState() {
+    super.initState();
+    futureEvents = ApiService.getEvents();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,56 +40,68 @@ class MainScreen extends StatelessWidget {
             ],
           ),
         ),
-        child: ListView.builder(
-          itemCount: events.length,
-          itemBuilder: (context, index) {
-            var event = events[index];
-            return Card(
-              elevation: 5,
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ListTile(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  leading: Container(
-                    padding: const EdgeInsets.only(right: 12),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        right: BorderSide(width: 1, color: Colors.grey),
+        child: FutureBuilder<List<Event>>(
+          future: futureEvents,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  var event = snapshot.data![index];
+                  return Card(
+                    elevation: 5,
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        leading: Container(
+                          padding: const EdgeInsets.only(right: 12),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              right: BorderSide(width: 1, color: Colors.grey),
+                            ),
+                          ),
+                          child: Image.network(event.imageUrl),
+                        ),
+                        title: Text(
+                          event.title,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text(
+                          event.description,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        trailing: const Icon(
+                          Icons.keyboard_arrow_right,
+                          color: Colors.grey,
+                          size: 30,
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                EventDetailsScreen(event: event),
+                          ));
+                        },
                       ),
                     ),
-                    child: Image.network(event.imageUrl),
-                  ),
-                  title: Text(
-                    event.title,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    event.description,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  trailing: const Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Colors.grey,
-                    size: 30,
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => EventDetailsScreen(event: event),
-                    ));
-                  },
-                ),
-              ),
-            );
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return CircularProgressIndicator();
           },
         ),
       ),

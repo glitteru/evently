@@ -7,6 +7,7 @@ import logging
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
 from waitress import serve
+from flask_cors import CORS
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -38,7 +39,7 @@ def scrape_events():
                 day = event.find("span", class_="calendar-icon__icon__day").text.strip()
             except:
                 month = "None"
-                day = event.find("p", class_="event__item__date").text.strip()
+                day = "None"
             if month == "sty":
                 month = "01"
             elif month == "lut":
@@ -63,29 +64,66 @@ def scrape_events():
                 month = "11"
             elif month == "gru":
                 month = "12"
-            image = event.find("img", itemprop="image")['src']
+            image = event.find("img", class_="img_bg")['src']
             if image == "https://s-trojmiasto.pl/_img/1px_transparent.png":
                 image = "None"
             link = event.find("a", class_="event__item__title")['href']
             try: category = event.find("a", class_="event__item__types__link").text.strip()
             except: category = "None"
-            
+            if month == "01" and date.strftime("%m") == "12":
+                year = str(datetime.now().year + 1)
+            else:
+                year = str(datetime.now().year)
+            day = str(day).zfill(2)
+            month = str(month).zfill(2)
+            date = f"{day}-{month}-{year}"
             city = event.find("span", class_="event__item__location__city").text.strip()
             try: localization = event.find("a", class_="event__item__location__place").text.strip()
             except: localization = "None"
-            event_data = {
-                "title": title,
-                "month": month,
-                "day": day,
-                "image": image,
-                "link": link,
-                "category": category,
-                "city": city,
-                "localization": localization
-            }
-            print('Scraped event: ', title)
-            if event_data not in events:
-                events.append(event_data)
+            if day != "None":
+                response = requests.get(link)
+                soup = BeautifulSoup(response.text, 'html.parser')
+                if image == "None":
+                    image_div = soup.find("div", class_="thumb-content")
+                    if image_div:
+                        image = image_div.find("img")["src"]
+                    elif soup.find("img", class_="SpectacleInfo__img"):
+                        image = soup.find("img", class_="SpectacleInfo__img")["src"]
+                description_div = soup.find("div", class_="text-contents")
+                if description_div:
+                    description = description_div.get_text().strip()
+                if '-' in day:
+                    days = day.split('-')
+                    for d in days:
+                        d = str(d).zfill(2)
+                        event_data = {
+                            "title": title,
+                            "image": image,
+                            "link": link,
+                            "category": category,
+                            "city": city,
+                            "localization": localization,
+                            "date": f"{d}-{month}-{year}",
+                            "description": description
+                        }
+                        if event_data not in events:
+                            events.append(event_data)
+                            print('Scraped event: ', title)
+                            print(f"{d}-{month}-{year}")
+                else:
+                    event_data = {
+                        "title": title,
+                        "image": image,
+                        "link": link,
+                        "category": category,
+                        "city": city,
+                        "localization": localization,
+                        "date": date,
+                        "description": description
+                    }
+                    if event_data not in events:
+                        events.append(event_data)
+                        print('Scraped event: ', title)
     return events
 
 
@@ -98,6 +136,7 @@ scheduler.start()
 
 def create_app():
     app = Flask(__name__)
+    CORS(app) 
 
     @app.route('/api/events', methods=['GET'])
     def get_events():
