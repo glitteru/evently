@@ -76,7 +76,7 @@ def scrape_events():
                 year = str(datetime.now().year)
             day = str(day).zfill(2)
             month = str(month).zfill(2)
-            date = f"{year}-{month}-{d}"
+            date = f"{year}-{month}-{day}"
             city = event.find("span", class_="event__item__location__city").text.strip()
             try: localization = event.find("a", class_="event__item__location__place").text.strip()
             except: localization = "None"
