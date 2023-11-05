@@ -58,24 +58,28 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                        leading: Container(
-                            padding: const EdgeInsets.only(right: 12),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                right: BorderSide(width: 1, color: Colors.grey),
+                            horizontal: 20, vertical: 5),
+                        leading: Hero(
+                          tag: 'eventImage${event.id}',
+                          child: Container(
+                              padding: const EdgeInsets.only(right: 12),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  right:
+                                      BorderSide(width: 1, color: Colors.grey),
+                                ),
                               ),
-                            ),
-                            child: CachedNetworkImage(
-                              imageUrl: event.imageUrl,
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                              fit: BoxFit.cover, // add this line
-                              width: 100, // specify the width
-                              height: 100, // specify the height
-                            )),
+                              child: CachedNetworkImage(
+                                imageUrl: event.imageUrl,
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                fit: BoxFit.cover,
+                                width: 100,
+                                height: 100,
+                              )),
+                        ),
                         title: Text(
                           event.title,
                           style: const TextStyle(
