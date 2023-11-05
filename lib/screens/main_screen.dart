@@ -5,19 +5,20 @@ import '../models/api_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
+  final DateTime selectedDate;
+  const MainScreen({Key? key, required this.selectedDate}) : super(key: key);
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   late Future<List<Event>> futureEvents;
-
   @override
   void initState() {
     super.initState();
-    futureEvents = ApiService.getEvents();
+    futureEvents = ApiService.getEvents().then((events) => events
+        .where((event) => event.date.isAtSameMomentAs(widget.selectedDate))
+        .toList());
   }
 
   @override

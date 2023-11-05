@@ -183,8 +183,8 @@ class _QuizScreenState extends State<QuizScreen> {
     if (questionIndex < questions.length - 1) {
       setState(() => questionIndex++);
     } else {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const MainScreen()));
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => MainScreen(selectedDate: selectedDate)));
     }
   }
 
