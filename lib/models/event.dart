@@ -25,7 +25,7 @@ class Event {
       title: json['title'] as String,
       description: 'Test description',
       imageUrl: json['image'] as String,
-      date: DateFormat('dd-MM-yyyy').parse(json['date']),
+      date: DateTime.parse(json['date']),
       location: json['localization'] as String,
     );
   }
