@@ -1,4 +1,4 @@
-package com.example.hack_heroes
+package com.example.evently
 
 import io.flutter.embedding.android.FlutterActivity
 

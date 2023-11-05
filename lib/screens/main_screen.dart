@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'event_details_screen.dart';
 import '../models/event.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import '../models/api_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key? key}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -61,14 +60,22 @@ class _MainScreenState extends State<MainScreen> {
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         leading: Container(
-                          padding: const EdgeInsets.only(right: 12),
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              right: BorderSide(width: 1, color: Colors.grey),
+                            padding: const EdgeInsets.only(right: 12),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                right: BorderSide(width: 1, color: Colors.grey),
+                              ),
                             ),
-                          ),
-                          child: Image.network(event.imageUrl),
-                        ),
+                            child: CachedNetworkImage(
+                              imageUrl: event.imageUrl,
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                              fit: BoxFit.cover, // add this line
+                              width: 100, // specify the width
+                              height: 100, // specify the height
+                            )),
                         title: Text(
                           event.title,
                           style: const TextStyle(
@@ -101,7 +108,8 @@ class _MainScreenState extends State<MainScreen> {
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
-            return CircularProgressIndicator();
+            return const Center(
+                child: CircularProgressIndicator(color: Colors.green));
           },
         ),
       ),

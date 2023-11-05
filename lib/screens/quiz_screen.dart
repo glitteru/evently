@@ -184,7 +184,7 @@ class _QuizScreenState extends State<QuizScreen> {
       setState(() => questionIndex++);
     } else {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => MainScreen()));
+          .push(MaterialPageRoute(builder: (context) => const MainScreen()));
     }
   }
 
