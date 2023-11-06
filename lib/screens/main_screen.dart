@@ -97,19 +97,35 @@ class _MainScreenState extends State<MainScreen> {
                           children: [
                             if (event.category != 'None' &&
                                 event.category.isNotEmpty)
-                              Text(
-                                'Lokalizacja: ${event.location}',
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.location_on,
+                                    color: Colors.grey,
+                                  ),
+                                  Text(
+                                    event.location,
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
                               ),
                             if (event.category != 'None' &&
                                 event.category.isNotEmpty)
-                              Text(
-                                'Kategoria: ${event.category}',
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.category,
+                                    color: Colors.grey,
+                                  ),
+                                  Text(
+                                    event.category,
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
                               ),
                           ],
                         ),
