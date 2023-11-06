@@ -24,7 +24,8 @@ class Event {
     return Event(
       id: uuid.v4(),
       title: json['title'] as String,
-      description: 'Test description',
+      description:
+          (json['description'] as String).split('Pełny opis wydarzenia')[0],
       imageUrl: json['image'] as String,
       date: DateTime.parse(json['date']),
       location: json['localization'] as String,

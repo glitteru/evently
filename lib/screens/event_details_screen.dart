@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../models/event.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EventDetailsScreen extends StatelessWidget {
   final Event event;
@@ -22,10 +24,21 @@ class EventDetailsScreen extends StatelessWidget {
                   imageUrl: event.imageUrl,
                 ),
               ),
-              Text(event.title,
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold)),
-              Text(event.description),
+              Linkify(
+                onOpen: (link) async {
+                  if (await canLaunchUrl(Uri.parse(link.url))) {
+                    await launchUrl(Uri.parse(link.url));
+                  } else {
+                    throw 'Could not launch $link';
+                  }
+                },
+                text: event.description.replaceAllMapped(
+                  RegExp(r'(?<=\S)https:\/\/forms\.gle\/\w{17}(?=\S)'),
+                  (match) => ' ${match.group(0)} ',
+                ),
+                style: const TextStyle(color: Colors.black),
+                linkStyle: const TextStyle(color: Colors.blue),
+              ),
               Text("Data: ${event.date.toLocal().toString().split(' ')[0]}"),
               Text("Lokalizacja: ${event.location}"),
               // wiecej info
