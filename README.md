@@ -1,4 +1,4 @@
-# Evently - Projekt Hackathonowy
+# Evently - wydarzenia pod ręką
 
 Ten projekt został stworzony na hackathon Hack Heroes. Jest to aplikacja mobilna stworzona w Flutter, która korzysta z API napisanego w Pythonie.<br>
 Służy ona do wyświetlania spersonalizowanych listy wydarzeń dostarczanych przez API, pobieranych z trójmiasto.pl.
