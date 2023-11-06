@@ -19,7 +19,7 @@ class Event {
       required this.category});
 
   factory Event.fromJson(Map<String, dynamic> json) {
-    final uuid = Uuid();
+    const uuid = Uuid();
     return Event(
       id: uuid.v4(),
       title: json['title'] as String,
