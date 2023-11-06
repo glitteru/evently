@@ -24,7 +24,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
   int questionIndex = 0;
   List<bool> isSelected = [false, false, false, false];
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime(DateTime.now().year, DateTime.now().month,
+      DateTime.now().day, 0, 0, 0, 0, 0);
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +201,8 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   _setDate(String label) {
-    DateTime now = DateTime.now();
+    DateTime now = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, 0, 0, 0, 0, 0);
     setState(() {
       if (label == "Dzisiaj") {
         selectedDate = now;
