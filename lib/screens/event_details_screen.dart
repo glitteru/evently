@@ -15,34 +15,36 @@ class EventDetailsScreen extends StatelessWidget {
       appBar: AppBar(title: Text(event.title)),
       body: Container(
         margin: const EdgeInsets.all(10),
-        child: Center(
-          child: Column(
-            children: [
-              Hero(
-                tag: 'eventImage${event.id}',
-                child: CachedNetworkImage(
-                  imageUrl: event.imageUrl,
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                Hero(
+                  tag: 'eventImage${event.id}',
+                  child: CachedNetworkImage(
+                    imageUrl: event.imageUrl,
+                  ),
                 ),
-              ),
-              Linkify(
-                onOpen: (link) async {
-                  if (await canLaunchUrl(Uri.parse(link.url))) {
-                    await launchUrl(Uri.parse(link.url));
-                  } else {
-                    throw 'Could not launch $link';
-                  }
-                },
-                text: event.description.replaceAllMapped(
-                  RegExp(r'(?<=\S)https:\/\/forms\.gle\/\w{17}(?=\S)'),
-                  (match) => ' ${match.group(0)} ',
+                Linkify(
+                  onOpen: (link) async {
+                    if (await canLaunchUrl(Uri.parse(link.url))) {
+                      await launchUrl(Uri.parse(link.url));
+                    } else {
+                      throw 'Could not launch $link';
+                    }
+                  },
+                  text: event.description.replaceAllMapped(
+                    RegExp(r'(?<=\S)https:\/\/forms\.gle\/\w{17}(?=\S|\w)'),
+                    (match) => ' ${match.group(0)} ',
+                  ),
+                  style: const TextStyle(color: Colors.black),
+                  linkStyle: const TextStyle(color: Colors.blue),
                 ),
-                style: const TextStyle(color: Colors.black),
-                linkStyle: const TextStyle(color: Colors.blue),
-              ),
-              Text("Data: ${event.date.toLocal().toString().split(' ')[0]}"),
-              Text("Lokalizacja: ${event.location}"),
-              // wiecej info
-            ],
+                Text("Data: ${event.date.toLocal().toString().split(' ')[0]}"),
+                Text("Lokalizacja: ${event.location}"),
+                // wiecej info
+              ],
+            ),
           ),
         ),
       ),
