@@ -1,4 +1,5 @@
 import 'package:uuid/uuid.dart';
+import 'package:recase/recase.dart';
 
 class Event {
   final String id;
@@ -27,7 +28,7 @@ class Event {
       imageUrl: json['image'] as String,
       date: DateTime.parse(json['date']),
       location: json['localization'] as String,
-      category: json['category'] as String,
+      category: ReCase(json['category'] as String).titleCase,
     );
   }
 }
