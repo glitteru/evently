@@ -7,15 +7,16 @@ class Event {
   final String imageUrl;
   final DateTime date;
   final String location;
+  final String category;
 
-  Event({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.imageUrl,
-    required this.date,
-    required this.location,
-  });
+  Event(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.imageUrl,
+      required this.date,
+      required this.location,
+      required this.category});
 
   factory Event.fromJson(Map<String, dynamic> json) {
     final uuid = Uuid();
@@ -26,6 +27,7 @@ class Event {
       imageUrl: json['image'] as String,
       date: DateTime.parse(json['date']),
       location: json['localization'] as String,
+      category: json['category'] as String,
     );
   }
 }

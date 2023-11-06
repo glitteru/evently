@@ -16,7 +16,7 @@ scheduler = BackgroundScheduler()
 
 def scrape_events():
     events = []
-    for i in range(30):
+    for i in range(32):
         date = datetime.now() + timedelta(days=i)
         date_str = date.strftime("%Y-%m-%d")
         url = f"https://imprezy.trojmiasto.pl/kalendarz-imprez/dzien,{date_str},offset,120.html"

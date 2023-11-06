@@ -92,11 +92,26 @@ class _MainScreenState extends State<MainScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        subtitle: Text(
-                          event.description,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                          ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (event.category != 'None' &&
+                                event.category.isNotEmpty)
+                              Text(
+                                'Lokalizacja: ${event.location}',
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            if (event.category != 'None' &&
+                                event.category.isNotEmpty)
+                              Text(
+                                'Kategoria: ${event.category}',
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                          ],
                         ),
                         trailing: const Icon(
                           Icons.keyboard_arrow_right,

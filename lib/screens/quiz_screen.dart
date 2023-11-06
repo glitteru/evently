@@ -193,7 +193,7 @@ class _QuizScreenState extends State<QuizScreen> {
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime.now(),
-        lastDate: DateTime(2100));
+        lastDate: DateTime.now().add(const Duration(days: 30)));
     if (picked != null && picked != selectedDate) {
       setState(() => selectedDate = picked);
     }
@@ -209,6 +209,9 @@ class _QuizScreenState extends State<QuizScreen> {
       } else if (label == "Sobota") {
         selectedDate = now.add(Duration(days: (6 - now.weekday + 7) % 7));
       }
+      // selectedDate time must be set to 0:00:00 to compare it with events dates
+      selectedDate = DateTime(selectedDate.year, selectedDate.month,
+          selectedDate.day, 0, 0, 0, 0, 0);
     });
   }
 }
