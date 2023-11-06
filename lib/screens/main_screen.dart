@@ -3,6 +3,7 @@ import 'event_details_screen.dart';
 import '../models/event.dart';
 import '../models/api_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MainScreen extends StatefulWidget {
   final DateTime selectedDate;
@@ -73,7 +74,10 @@ class _MainScreenState extends State<MainScreen> {
                               child: CachedNetworkImage(
                                 imageUrl: event.imageUrl,
                                 placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
+                                    const SpinKitFadingCube(
+                                  color: Colors.purple,
+                                  size: 50.0,
+                                ),
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.error),
                                 fit: BoxFit.cover,
@@ -114,7 +118,10 @@ class _MainScreenState extends State<MainScreen> {
               return Text("${snapshot.error}");
             }
             return const Center(
-                child: CircularProgressIndicator(color: Colors.green));
+                child: SpinKitFadingCube(
+              color: Colors.purple,
+              size: 50.0,
+            ));
           },
         ),
       ),
