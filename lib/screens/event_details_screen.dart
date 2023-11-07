@@ -12,7 +12,22 @@ class EventDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(event.title)),
+      appBar: AppBar(
+        title: Text(event.title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: () async {
+              const url = 'https://www.trojmiasto.pl/';
+              if (await canLaunchUrl(Uri.parse(url))) {
+                await launchUrl(Uri.parse(url));
+              } else {
+                throw 'Could not launch $url';
+              }
+            },
+          ),
+        ],
+      ),
       body: Container(
         margin: const EdgeInsets.all(10),
         child: SingleChildScrollView(
@@ -24,6 +39,10 @@ class EventDetailsScreen extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: event.imageUrl,
                   ),
+                ),
+                Text(
+                  "Dane pochodzą z serwisu trójmiasto.pl",
+                  style: TextStyle(fontSize: 10),
                 ),
                 Linkify(
                   onOpen: (link) async {
