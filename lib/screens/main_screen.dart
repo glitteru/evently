@@ -4,10 +4,16 @@ import '../models/event.dart';
 import '../models/api_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:evently/models/quiz_answers.dart';
 
 class MainScreen extends StatefulWidget {
   final DateTime selectedDate;
-  const MainScreen({Key? key, required this.selectedDate}) : super(key: key);
+  final QuizAnswers quizAnswers;
+
+  const MainScreen(
+      {Key? key, required this.selectedDate, required this.quizAnswers})
+      : super(key: key);
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }

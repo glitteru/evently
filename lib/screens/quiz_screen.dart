@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:evently/models/quiz_answers.dart';
 import 'main_screen.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -192,14 +192,24 @@ class _QuizScreenState extends State<QuizScreen> {
   _nextQuestionOrScreen() {
     if (questionIndex == 0 && isSelected[0]) {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MainScreen(selectedDate: selectedDate)));
+          builder: (context) => MainScreen(
+              selectedDate: selectedDate,
+              quizAnswers: QuizAnswers(
+                  spendTimeWithKids: true,
+                  attendLectures: true,
+                  listenToMusic: true))));
     } else {
       uncheckAll();
       if (questionIndex < questions.length - 1) {
         setState(() => questionIndex++);
       } else {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => MainScreen(selectedDate: selectedDate)));
+            builder: (context) => MainScreen(
+                selectedDate: selectedDate,
+                quizAnswers: QuizAnswers(
+                    spendTimeWithKids: true,
+                    attendLectures: true,
+                    listenToMusic: true))));
       }
     }
   }
