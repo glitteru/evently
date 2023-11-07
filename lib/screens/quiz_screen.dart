@@ -12,14 +12,26 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   final questions = [
     {
-      'question': 'Jak dużo masz czasu?',
+      'question': 'Czy chcesz spędzić czas z dziećmi?',
       'answers': [
-        'Tylko na chwilę, max 1h',
-        'Kilka godzin',
-        'Do późnych godzin nocnych',
-        'Nie mam ustalonego planu'
+        'Tak',
+        'Nie',
       ]
-    }
+    },
+    {
+      'question': 'Czy chcesz brać udział w wykładach?',
+      'answers': [
+        'Tak',
+        'Nie',
+      ]
+    },
+    {
+      'question': 'Czy chcesz słuchać muzyki?',
+      'answers': [
+        'Tak',
+        'Nie',
+      ]
+    },
   ];
 
   int questionIndex = 0;
@@ -165,9 +177,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         fontSize: 18,
                         fontWeight: FontWeight.bold))),
           ElevatedButton(
-              onPressed: _isAnswerSelected
-                  ? _nextQuestionOrScreen
-                  : null, // disable button if no checkbox is selected
+              onPressed: _isAnswerSelected ? _nextQuestionOrScreen : null,
               child: Text(
                   questionIndex < questions.length - 1
                       ? "Następne pytanie"
@@ -180,12 +190,17 @@ class _QuizScreenState extends State<QuizScreen> {
       );
 
   _nextQuestionOrScreen() {
-    uncheckAll();
-    if (questionIndex < questions.length - 1) {
-      setState(() => questionIndex++);
-    } else {
+    if (questionIndex == 0 && isSelected[0]) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => MainScreen(selectedDate: selectedDate)));
+    } else {
+      uncheckAll();
+      if (questionIndex < questions.length - 1) {
+        setState(() => questionIndex++);
+      } else {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => MainScreen(selectedDate: selectedDate)));
+      }
     }
   }
 
