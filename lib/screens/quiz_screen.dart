@@ -19,14 +19,14 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'question': 'Preferujesz warsztaty?',
+      'question': 'Czy preferujesz warsztaty?',
       'answers': [
         'Tak',
         'Nie',
       ]
     },
     {
-      'question': 'Preferujesz spędzenie czasu z muzyką?',
+      'question': 'Czy preferujesz spędzenie czasu z muzyką?',
       'answers': [
         'Tak',
         'Nie',
@@ -81,6 +81,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   children: _dateButtons())),
           const SizedBox(height: 20),
           Text((questions[questionIndex]['question'] as String),
+              textAlign: TextAlign.center,
               style: const TextStyle(
                   fontFamily: 'Montserrat',
                   fontSize: 24,
