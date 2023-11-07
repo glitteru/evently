@@ -170,6 +170,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ElevatedButton(
                 onPressed: () {
                   setState(() => questionIndex--);
+                  answers.removeLast();
                   uncheckAll();
                 },
                 child: const Text("Wróć",
@@ -191,13 +192,16 @@ class _QuizScreenState extends State<QuizScreen> {
       );
 
   _nextQuestionOrScreen() {
+    if (answers.length > 2) {
+      answers.removeAt(0);
+    }
     answers.add(isSelected[0]);
 
     if (questionIndex == 0 && isSelected[0]) {
       QuizAnswers quizAnswers = QuizAnswers(
         spendTimeWithKids: answers[0],
-        attendLectures: false,
-        listenToMusic: false,
+        attendLectures: answers[1],
+        listenToMusic: answers[2],
       );
 
       Navigator.of(context).push(MaterialPageRoute(
