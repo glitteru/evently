@@ -33,10 +33,24 @@ class EventDetailsScreen extends StatelessWidget {
                       throw 'Could not launch $link';
                     }
                   },
-                  text: event.description.replaceAllMapped(
-                    RegExp(r'(?<=\S)https:\/\/forms\.gle\/\w{17}(?=\S|\w)'),
-                    (match) => ' ${match.group(0)} ',
-                  ),
+                  text: event.description
+                      .replaceAllMapped(
+                        RegExp(r'(?<=\S)https:\/\/forms\.gle\/\w{17}(?=\S|\w)'),
+                        (match) => ' ${match.group(0)} ',
+                      )
+                      .replaceAllMapped(
+                        RegExp(r'\.(?=\s*[A-Z])|,(?=\S)(?<!\")'),
+                        (match) => '${match.group(0)} ',
+                      )
+                      .replaceAllMapped(
+                        RegExp(r'\"([^\"]*)\"'),
+                        (match) => '${match.group(0)} ',
+                      )
+                      .replaceAllMapped(
+                        RegExp(r'(?<=[a-z/])(?=[A-Z])'),
+                        (match) => '${match.group(0)} ',
+                      )
+                      .replaceAll(RegExp(r'\s{2,}'), ' '),
                   style: const TextStyle(color: Colors.black),
                   linkStyle: const TextStyle(color: Colors.blue),
                 ),
