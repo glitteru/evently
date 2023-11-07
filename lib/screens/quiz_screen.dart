@@ -193,6 +193,19 @@ class _QuizScreenState extends State<QuizScreen> {
   _nextQuestionOrScreen() {
     answers.add(isSelected[0]);
 
+    if (questionIndex == 0 && isSelected[0]) {
+      QuizAnswers quizAnswers = QuizAnswers(
+        spendTimeWithKids: answers[0],
+        attendLectures: false,
+        listenToMusic: false,
+      );
+
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => MainScreen(
+              selectedDate: selectedDate, quizAnswers: quizAnswers)));
+      return;
+    }
+
     if (questionIndex < questions.length - 1) {
       uncheckAll();
       setState(() => questionIndex++);
