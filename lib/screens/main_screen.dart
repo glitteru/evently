@@ -23,9 +23,55 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    futureEvents = ApiService.getEvents().then((events) => events
-        .where((event) => event.date.isAtSameMomentAs(widget.selectedDate))
-        .toList());
+    futureEvents = ApiService.getEvents().then((events) {
+      var filteredEvents = events
+          .where((event) => event.date.isAtSameMomentAs(widget.selectedDate))
+          .toList();
+
+      if (widget.quizAnswers.spendTimeWithKids) {
+        filteredEvents = filteredEvents
+            .where((event) => event.category.toLowerCase().contains('dzieci'))
+            .toList();
+      }
+
+      if (widget.quizAnswers.workshops) {
+        filteredEvents = filteredEvents
+            .where(
+                (event) => event.category.toLowerCase().contains('warsztaty'))
+            .toList();
+      }
+
+      if (widget.quizAnswers.listenToMusic) {
+        var musicCategories = [
+          'blues',
+          'brzmienia',
+          'disco',
+          'folk',
+          'hip-hop',
+          'jazz',
+          'muzyka',
+          'piosenka',
+          'śpiewana',
+          'pop',
+          'rock',
+          'punk',
+          'szanty',
+          'koncert',
+          'festiwal',
+          'opera'
+        ];
+        filteredEvents = filteredEvents
+            .where((event) => musicCategories.any(
+                (category) => event.category.toLowerCase().contains(category)))
+            .toList();
+      }
+
+      var allEvents = List<Event>.from(filteredEvents);
+      allEvents.addAll(
+          events.where((event) => !filteredEvents.contains(event)).toList());
+
+      return allEvents;
+    });
   }
 
   @override

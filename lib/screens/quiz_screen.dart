@@ -19,7 +19,7 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     },
     {
-      'question': 'Czy chcesz brać udział w wykładach?',
+      'question': 'Czy chcesz brać udział w warsztatach?',
       'answers': [
         'Tak',
         'Nie',
