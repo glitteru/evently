@@ -36,6 +36,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   int questionIndex = 0;
   List<bool> isSelected = [false, false, false, false];
+  List<bool> answers = [];
   DateTime selectedDate = DateTime(DateTime.now().year, DateTime.now().month,
       DateTime.now().day, 0, 0, 0, 0, 0);
 
@@ -190,27 +191,21 @@ class _QuizScreenState extends State<QuizScreen> {
       );
 
   _nextQuestionOrScreen() {
-    if (questionIndex == 0 && isSelected[0]) {
+    answers.add(isSelected[0]);
+
+    if (questionIndex < questions.length - 1) {
+      uncheckAll();
+      setState(() => questionIndex++);
+    } else {
+      QuizAnswers quizAnswers = QuizAnswers(
+        spendTimeWithKids: answers[0],
+        attendLectures: answers[1],
+        listenToMusic: answers[2],
+      );
+
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => MainScreen(
-              selectedDate: selectedDate,
-              quizAnswers: QuizAnswers(
-                  spendTimeWithKids: true,
-                  attendLectures: true,
-                  listenToMusic: true))));
-    } else {
-      uncheckAll();
-      if (questionIndex < questions.length - 1) {
-        setState(() => questionIndex++);
-      } else {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => MainScreen(
-                selectedDate: selectedDate,
-                quizAnswers: QuizAnswers(
-                    spendTimeWithKids: true,
-                    attendLectures: true,
-                    listenToMusic: true))));
-      }
+              selectedDate: selectedDate, quizAnswers: quizAnswers)));
     }
   }
 

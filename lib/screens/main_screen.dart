@@ -30,6 +30,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.quizAnswers.listenToMusic);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Evently"),
