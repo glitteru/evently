@@ -1,4 +1,4 @@
-# # Evently - spersonalizowane wydarzenia w Trójmieście
+# Evently - spersonalizowane wydarzenia w Trójmieście
 
 Evently to innowacyjna aplikacja mobilna, którą stworzyłem, aby przekształcić sposób, w jaki odkrywasz wydarzenia w swoim mieście. Została stworzona podczas hackathonu Hack Heroes i korzysta z mojego własnego API, które pobiera dane z trójmiasto.pl.
 
