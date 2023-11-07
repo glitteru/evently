@@ -1,11 +1,11 @@
 class QuizAnswers {
   final bool spendTimeWithKids;
-  final bool attendLectures;
+  final bool workshops;
   final bool listenToMusic;
 
   QuizAnswers({
     required this.spendTimeWithKids,
-    required this.attendLectures,
+    required this.workshops,
     required this.listenToMusic,
   });
 }

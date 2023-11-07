@@ -200,8 +200,8 @@ class _QuizScreenState extends State<QuizScreen> {
     if (questionIndex == 0 && isSelected[0]) {
       QuizAnswers quizAnswers = QuizAnswers(
         spendTimeWithKids: answers[0],
-        attendLectures: answers[1],
-        listenToMusic: answers[2],
+        workshops: false,
+        listenToMusic: false,
       );
 
       Navigator.of(context).push(MaterialPageRoute(
@@ -216,7 +216,7 @@ class _QuizScreenState extends State<QuizScreen> {
     } else {
       QuizAnswers quizAnswers = QuizAnswers(
         spendTimeWithKids: answers[0],
-        attendLectures: answers[1],
+        workshops: answers[1],
         listenToMusic: answers[2],
       );
 

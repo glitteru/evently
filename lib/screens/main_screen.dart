@@ -30,6 +30,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.quizAnswers.spendTimeWithKids);
+    print(widget.quizAnswers.workshops);
     print(widget.quizAnswers.listenToMusic);
     return Scaffold(
       appBar: AppBar(
