@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
     print(widget.quizAnswers.listenToMusic);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Evently"),
+        title: const Text("Evently - spersonalizowane wydarzenia"),
       ),
       body: Container(
         decoration: const BoxDecoration(
