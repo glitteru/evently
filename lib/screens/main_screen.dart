@@ -67,9 +67,11 @@ class _MainScreenState extends State<MainScreen> {
       }
 
       var allEvents = List<Event>.from(filteredEvents);
-      allEvents.addAll(
-          events.where((event) => !filteredEvents.contains(event)).toList());
-
+      allEvents.addAll(events
+          .where((event) =>
+              !filteredEvents.contains(event) &&
+              event.date.isAtSameMomentAs(widget.selectedDate))
+          .toList());
       return allEvents;
     });
   }
