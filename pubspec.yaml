@@ -1,5 +1,5 @@
 name: evently
-description: A new Flutter project.
+description: Evently is a mobile application that allows users to find events.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -65,7 +65,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  assets:
+    - lib/assets/evently_logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart';
+import 'screens/welcome_screen.dart';
 
 void main() => runApp(const EventlyApp());
 
@@ -13,7 +13,7 @@ class EventlyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }

@@ -9,6 +9,7 @@ class Event {
   final DateTime date;
   final String location;
   final String category;
+  final String link;
 
   Event(
       {required this.id,
@@ -17,7 +18,8 @@ class Event {
       required this.imageUrl,
       required this.date,
       required this.location,
-      required this.category});
+      required this.category,
+      required this.link});
 
   factory Event.fromJson(Map<String, dynamic> json) {
     const uuid = Uuid();
@@ -30,6 +32,7 @@ class Event {
       date: DateTime.parse(json['date']),
       location: json['localization'] as String,
       category: ReCase(json['category'] as String).titleCase,
+      link: json['link'] as String,
     );
   }
 }

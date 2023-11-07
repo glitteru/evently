@@ -1,23 +1,60 @@
 import 'package:flutter/material.dart';
 import 'welcome_screen.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    // Przenoszenie do ekranu powitalnego po 2 sekundach.
-    Future.delayed(const Duration(seconds: 2), () {
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    );
+
+    _controller.forward();
+
+    Future.delayed(const Duration(seconds: 1), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const WelcomeScreen(),
       ));
     });
+  }
 
-    return const Scaffold(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       body: Center(
-        child: Text("Evently",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        child: FadeTransition(
+          opacity: _animation,
+          child: Image.asset(
+            'assets/evently_logo.png',
+            width: 100,
+            height: 100,
+          ),
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

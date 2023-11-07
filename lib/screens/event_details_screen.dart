@@ -18,7 +18,7 @@ class EventDetailsScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () async {
-              const url = 'https://www.trojmiasto.pl/';
+              final url = event.link;
               if (await canLaunchUrl(Uri.parse(url))) {
                 await launchUrl(Uri.parse(url));
               } else {
