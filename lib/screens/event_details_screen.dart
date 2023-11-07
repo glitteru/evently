@@ -16,7 +16,7 @@ class EventDetailsScreen extends StatelessWidget {
         title: Text(event.title),
         actions: [
           IconButton(
-            icon: Icon(Icons.info_outline),
+            icon: const Icon(Icons.info_outline),
             onPressed: () async {
               const url = 'https://www.trojmiasto.pl/';
               if (await canLaunchUrl(Uri.parse(url))) {
@@ -40,7 +40,7 @@ class EventDetailsScreen extends StatelessWidget {
                     imageUrl: event.imageUrl,
                   ),
                 ),
-                Text(
+                const Text(
                   "Dane pochodzą z serwisu trójmiasto.pl",
                   style: TextStyle(fontSize: 10),
                 ),
