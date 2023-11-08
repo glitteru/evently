@@ -6,7 +6,7 @@
   </intent>
 </queries>
     <application
-        android:label="evently"
+        android:label="Evently"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
