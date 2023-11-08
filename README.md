@@ -35,6 +35,10 @@ Na tym ekranie, użytkownik może przeglądać listę wydarzeń. Każde wydarzen
 
 Na tym ekranie, użytkownik może zobaczyć więcej szczegółów na temat wybranego wydarzenia. Szczegóły obejmują tytuł, obraz, link, kategorię, miasto, lokalizację, datę i opis.
 
+## Uruchomienie aplikacji na Androidzie:
+- Pobierz i zainstaluj `evently.apk` z zakładki Releases
+- Uruchom aplikację `Evently`
+
 ## Licencja
 
 MIT License
