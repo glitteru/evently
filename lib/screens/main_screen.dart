@@ -149,8 +149,8 @@ class _MainScreenState extends State<MainScreen> {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (event.category != 'None' &&
-                                event.category.isNotEmpty)
+                            if (event.location != 'None' &&
+                                event.location.isNotEmpty)
                               Row(
                                 children: [
                                   const Icon(
