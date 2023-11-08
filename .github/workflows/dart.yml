@@ -21,7 +21,7 @@ jobs:
       run: flutter pub get
 
     - name: Build Web
-      run: flutter build web --release --base-href="/evently/"
+      run: flutter build web --releases
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
