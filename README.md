@@ -41,7 +41,7 @@ Na tym ekranie, użytkownik może zobaczyć więcej szczegółów na temat wybra
 
 ## Podgląd web
 
-`http://evently.franki.ovh/`
+http://evently.franki.ovh/
 
 ## Licencja
 
