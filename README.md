@@ -2,7 +2,7 @@
 
 Evently to innowacyjna aplikacja mobilna, którą stworzyłem, aby przekształcić sposób, w jaki odkrywasz wydarzenia w swoim mieście. Została stworzona podczas hackathonu Hack Heroes i korzysta z mojego własnego API, które pobiera dane z trójmiasto.pl.
 
-Aplikacja mobilna, stworzona w Flutter, jest dostępna na różne platformy, takie jak Android, iOS i Web. Dzięki temu możesz korzystać z Evently niezależnie od urządzenia, którego używasz.
+Aplikacja mobilna, stworzona w Flutter, może zostać skompilowana na różne platformy, takie jak Android, iOS i Web. Dzięki temu możesz korzystać z Evently niezależnie od urządzenia, którego używasz.
 
 API, które zasilam, zostało napisane w Pythonie i korzysta z bibliotek takich jak Flask i BeautifulSoup do scrapowania danych z internetu. API jest hostowane lokalnie i dostarcza dane do aplikacji Flutter.
 
