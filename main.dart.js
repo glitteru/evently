@@ -45291,7 +45291,7 @@ n=A.aqp(A.b([A.rp(p,B.Dw,new A.a2m(this),p,p)],m),p,p,n)
 s=A.arb(A.auv(p,p,p,o.d,p,p),"eventImage"+o.a)
 r=A.FL(A.FL(A.FL(A.FL(o.c,A.bE("(?<=\\S)https:\\/\\/forms\\.gle\\/\\w{17}(?=\\S|\\w)",!0,!1,!1),new A.a2n(),p),A.bE('\\.(?=\\s*[A-Z])|,(?=\\S)(?<!\\")',!0,!1,!1),new A.a2o(),p),A.bE('\\"([^\\"]*)\\"',!0,!1,!1),new A.a2p(),p),A.bE("(?<=[a-z/])(?=[A-Z])",!0,!1,!1),new A.a2q(),p)
 q=A.bE("\\s{2,}",!0,!1,!1)
-return A.aak(n,A.de(p,A.ax4(A.j0(A.hq(A.b([s,B.QA,new A.JB(A.nG(r,q," "),new A.a2r(),B.P6,B.PS,p),A.cJ("Data: "+A.i(o.e.VW().j(0).split(" ")[0]),p,p,p,p,p,p),A.cJ("Lokalizacja: "+o.f,p,p,p,p,p,p)],m),B.an,B.a0,B.ah),p,p),B.aU),B.n,p,p,p,p,p,B.Cq,p,p,p,p),!1)}}
+return A.aak(n,A.de(p,A.ax4(A.j0(A.hq(A.b([s,new A.JB(A.nG(r,q," "),new A.a2r(),B.P6,B.PS,p),A.cJ("Data: "+A.i(o.e.VW().j(0).split(" ")[0]),p,p,p,p,p,p),A.cJ("Lokalizacja: "+o.f,p,p,p,p,p,p),B.QA],m),B.an,B.a0,B.ah),p,p),B.aU),B.n,p,p,p,p,p,B.Cq,p,p,p,p),!1)}}
 A.a2m.prototype={
 $0(){var s=0,r=A.R(t.H),q=this,p
 var $async$$0=A.M(function(a,b){if(a===1)return A.O(b,r)
