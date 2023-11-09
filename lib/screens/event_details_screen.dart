@@ -40,10 +40,6 @@ class EventDetailsScreen extends StatelessWidget {
                     imageUrl: event.imageUrl,
                   ),
                 ),
-                const Text(
-                  "Dane pochodzą z serwisu trójmiasto.pl",
-                  style: TextStyle(fontSize: 10),
-                ),
                 Linkify(
                   onOpen: (link) async {
                     if (await canLaunchUrl(Uri.parse(link.url))) {
@@ -75,7 +71,10 @@ class EventDetailsScreen extends StatelessWidget {
                 ),
                 Text("Data: ${event.date.toLocal().toString().split(' ')[0]}"),
                 Text("Lokalizacja: ${event.location}"),
-                // wiecej info
+                const Text(
+                  "Dane pochodzą z serwisu trójmiasto.pl",
+                  style: TextStyle(fontSize: 10),
+                ),
               ],
             ),
           ),
