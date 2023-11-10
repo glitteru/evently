@@ -39,10 +39,6 @@ Na tym ekranie, użytkownik może zobaczyć więcej szczegółów na temat wybra
 - Pobierz i zainstaluj `evently.apk` z zakładki Releases
 - Uruchom aplikację `Evently`
 
-## Podgląd web
-
-http://evently.franki.ovh/
-
 ## Licencja
 
 MIT License
